@@ -1,9 +1,9 @@
-import express = require("express")
+const express = require("express")
 const app = express()
 const port = 3001
 const a = 'Hello asdasdasdasds!'
 
-app.use((req, res, next) => {
+app.use((req: any, res: { header: (arg0: string, arg1: string) => void; }, next: () => void) => {
     res.header('Access-Control-Allow-Origin', '*'); // Разрешает доступ всем доменам
     res.header(
         'Access-Control-Allow-Headers',
