@@ -11,7 +11,7 @@ dotenv.config();
 // Контроллер для регистрации пользователя
 export const register = async (req: Request, res: Response) => {
     try {
-        const { email, password, firstName, lastName, middleName, admin } = req.body;
+        const { email, password, firstName, lastName, middleName, admin = false } = req.body;
 
         // Валидация входных данных (можно добавить более сложную валидацию)
         if (!(email && password && firstName && lastName)) {
@@ -35,7 +35,7 @@ export const register = async (req: Request, res: Response) => {
             lastName,
             middleName: middleName || null, // Отчество может быть не указано
             registrationDate: new Date(), // Задаем текущую дату и время
-            admin: !!admin // По умолчанию пользователь не является администратором
+            admin // По умолчанию пользователь не является администратором
         });
 
         // Отправка подтверждения регистрации
