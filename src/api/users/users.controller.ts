@@ -1,43 +1,43 @@
 import {Request, Response} from 'express';
-import {User} from "../../models/user.model";
+import * as userService from './users.service';
+import * as Err from "../../utils/errors";
+
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        res.status(200).send("asdasd")
+        const data = req.query
+        const users = await userService.getAllUsers(data)
+        res.json(users)
     } catch (e) {
-        return res.status(500).send("Ошибка при получении списка пользователей");
+        if (e instanceof Err.InternalServerError) {
+            return res.status(e.status).json(e.error);
+        }
     }
 }
 export const getById = async (req: Request, res: Response) => {
     try {
-        res.status(200).send("asdas234234234d")
+        const id: number = +req.params.id;
+        const user = await userService.getUser(id)
+        res.json(user)
     } catch (e) {
-        return res.status(500).send("Ошибка при получении информации о пользователе");
+        if (e instanceof Err.NotFoundError || e instanceof Err.InternalServerError) {
+            return res.status(e.status).json(e.error);
+        }
     }
 }
+
 export const updateUser = async (req: Request, res: Response) => {
     try {
-        let dataForUpdate = req.body;
-
-        const id:number = +req.params.id
-        const userProfilesData = await User.findByPk(id);
-        if (userProfilesData) {
-
-            const data = await userProfilesData.update(dataForUpdate);
-            const { passwordHash, ...dataForResponse } = data.dataValues;
-            res.status(200).json({
-                "message": "Данные о пользователе обновлены",
-                data: dataForResponse
-            });
-        } else {
-            // Если профиль не найден
-            return res.status(404).json({ message: "Профиль пользователя не найден." });
-        }
-
-
-    } catch (e) {
-        return res.status(500).json({
-            "message": "Ошибка при выполнении запроса"
+        const id: number = +req.params.id;
+        const dataForUpdate = req.body;
+        const updatedUser = await userService.updateUserInDb(id, dataForUpdate);
+        res.json({
+            message: "Данные о пользователе обновлены", data: updatedUser
         });
+    } catch (e) {
+        if (e instanceof Err.NotFoundError || e instanceof Err.InternalServerError) {
+            return res.status(e.status).json(e.error);
+        }
     }
-}
+};
+
