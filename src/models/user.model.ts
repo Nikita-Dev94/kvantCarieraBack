@@ -51,7 +51,7 @@ export class User extends Model {
                 },
                 admin: {
                     type: DataTypes.BOOLEAN,
-                    allowNull: false,
+                    allowNull: true,
                     defaultValue: false,
                 },
                 experience: {
