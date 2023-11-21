@@ -5,7 +5,7 @@ import * as Err from "../../utils/errors"
 
 // Определяем тип для параметров запроса
 interface QueryParams {
-    [key: string]: string | undefined;
+    [key: string]: string | undefined ;
 }
 
 export const getAllUsers = async (data: any) => {
