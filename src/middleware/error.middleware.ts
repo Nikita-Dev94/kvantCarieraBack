@@ -11,10 +11,8 @@ const errorHandlerMiddleware = (err: Error, req: Request, res: Response, next: N
     } else if (err instanceof InternalServerError) {
         return res.status(err.status).json(err.error);
     }
-
     // Логирование ошибки, если это не ожидаемая ошибка
     console.error(err);
-
     // Отправка стандартного сообщения об ошибке
     res.status(500).json({ error: 'Internal Server Error' });
 };
