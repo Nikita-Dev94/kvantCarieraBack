@@ -44,5 +44,5 @@ export const generateToken = async  (user: User)=> {
     // Генерация токена аутентификации
     const secretKey: string | undefined = process.env.JWT_SECRET_KEY; // Установите свой секретный ключ в переменных окружения
     // @ts-ignore
-    return jwt.sign({userId: user.id, email: user.email}, secretKey, {expiresIn: '12h'});
+    return jwt.sign({userId: user.id, isAdmin: user.admin}, secretKey, {expiresIn: '12h'});
 }
