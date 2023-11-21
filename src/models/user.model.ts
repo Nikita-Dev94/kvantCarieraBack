@@ -1,5 +1,4 @@
 import {Model, DataTypes, Sequelize} from '@sequelize/core';
-import {sequelize} from "../config/db.config";
 
 export class User extends Model {
     public id!: number;// Знак восклицания указывает, что это поле будет инициализировано Sequelize
